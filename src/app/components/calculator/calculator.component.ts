@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+
+interface CalculationItem {
+  type: 'number' | 'operator';
+  value: string;
+}
 
 @Component({
   selector: 'app-calculator',
@@ -8,30 +13,10 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
   styleUrl: './calculator.component.scss',
 })
 export class CalculatorComponent {
-  calculations = [
-    { type: 'number', value: '12' },
-    { type: 'operator', value: '+' },
-    { type: 'number', value: '8' },
-    { type: 'operator', value: '-' },
-    { type: 'number', value: '4' },
-    { type: 'operator', value: '*' },
-    { type: 'number', value: '3' },
-    { type: 'operator', value: '/' },
-    { type: 'number', value: '2' },
-    { type: 'operator', value: '+' },
-    { type: 'number', value: '10' },
-    { type: 'operator', value: '-' },
-    { type: 'number', value: '5' },
-    { type: 'operator', value: '*' },
-    { type: 'number', value: '6' },
-    { type: 'operator', value: '/' },
-    { type: 'number', value: '1' },
-  ];
-
-  result: string = '42';
-  isDragging: boolean = false;
-  startX: number = 0;
-  scrollLeft: number = 0;
+  calculations: CalculationItem[] = [];
+  result: string = '';
+  currentInput: string = '';
+  operatorClicked: boolean = false;
 
   controls: Array<{
     value: string;
@@ -56,6 +41,68 @@ export class CalculatorComponent {
   ];
 
   handleClick(value: string) {
-    // Logika do obsługi kliknięcia przycisku
+    if (value === 'C') {
+      this.clear();
+    } else if (value === '=') {
+      this.calculateResult();
+    } else if (this.isOperator(value)) {
+      this.handleOperator(value);
+    } else {
+      this.handleNumber(value);
+    }
+  }
+
+  handleNumber(value: string) {
+    if (this.operatorClicked) {
+      this.currentInput = '';
+      this.operatorClicked = false;
+    }
+
+    this.currentInput += value;
+    this.updateCalculations({ type: 'number', value: this.currentInput });
+  }
+
+  handleOperator(value: string) {
+    if (
+      this.calculations.length > 0 &&
+      this.isOperator(this.calculations[this.calculations.length - 1].value)
+    ) {
+      return;
+    }
+
+    this.calculations.push({ type: 'operator', value });
+    this.operatorClicked = true;
+  }
+
+  calculateResult() {
+    try {
+      const expression = this.calculations.map((item) => item.value).join('');
+      this.result = `= ${eval(expression) ?? 0}`;
+    } catch (error) {
+      this.result = 'Error';
+    }
+  }
+
+  updateCalculations(item: CalculationItem) {
+    if (!this.operatorClicked) {
+      if (
+        this.calculations.length > 0 &&
+        this.calculations[this.calculations.length - 1].type === 'number'
+      ) {
+        this.calculations[this.calculations.length - 1] = item;
+      } else {
+        this.calculations.push(item);
+      }
+    }
+  }
+
+  isOperator(value: string): boolean {
+    return ['+', '-', '*', '/'].includes(value);
+  }
+
+  clear() {
+    this.calculations = [];
+    this.result = '';
+    this.currentInput = '';
   }
 }

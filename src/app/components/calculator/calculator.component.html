@@ -3,7 +3,7 @@
     <div class="calculations-display">
       @for (item of calculations; track $index) { {{ item.value }} }
     </div>
-    <div class="results-display">= {{ result }}</div>
+    <div class="results-display">{{ result }}</div>
   </div>
   <div class="controls-area">
     @for (control of controls; track $index) {
