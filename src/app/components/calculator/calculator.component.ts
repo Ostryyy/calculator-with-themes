@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, signal, WritableSignal } from '@angular/core';
 
 interface CalculationItem {
   type: 'number' | 'operator';
@@ -8,11 +9,29 @@ interface CalculationItem {
 @Component({
   selector: 'app-calculator',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.scss',
 })
 export class CalculatorComponent {
+  currentTheme: WritableSignal<string> = signal('theme-retro');
+
+  themes = [
+    { name: 'Retro', className: 'theme-retro' },
+    { name: 'Modern', className: 'theme-modern' },
+    { name: 'Hacker', className: 'theme-hacker' },
+  ];
+
+  showThemeSelector = false;
+
+  changeTheme(className: string) {
+    this.currentTheme.set(className);
+    this.showThemeSelector = false;
+  }
+
+  toggleThemeSelector() {
+    this.showThemeSelector = !this.showThemeSelector;
+  }
   calculations: CalculationItem[] = [];
   result: string = '';
   currentInput: string = '';

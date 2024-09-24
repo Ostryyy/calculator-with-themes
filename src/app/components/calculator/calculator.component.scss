@@ -1,10 +1,123 @@
+@import '../../styles/variables';
+
+@mixin button-theme($button-bg, $button-text, $button-radius) {
+    background-color: $button-bg;
+    color: $button-text;
+    border: 2px solid darken($button-bg, 15%);
+    border-radius: $button-radius;
+    box-shadow: 0 4px darken($button-bg, 15%);
+    transition: background-color 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        background-color: lighten($button-bg, 5%);
+        box-shadow: 0 2px darken($button-bg, 15%);
+    }
+
+    &:active {
+        background-color: darken($button-bg, 10%);
+        box-shadow: none;
+        transform: translateY(2px);
+    }
+}
+
+@mixin theme-button($theme-button-bg, $theme-button-text) {
+    background-color: $theme-button-bg;
+    color: $theme-button-text;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px darken($theme-button-bg, 10%);
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s, box-shadow 0.2s;
+
+    &:hover {
+        background-color: lighten($theme-button-bg, 5%);
+        box-shadow: 0 2px darken($theme-button-bg, 10%);
+    }
+
+    &:active {
+        background-color: darken($theme-button-bg, 5%);
+        box-shadow: none;
+        transform: translateY(2px);
+    }
+}
+
+@mixin theme($background-color,
+    $text-color,
+    $font-family,
+    $font-size,
+    $button-bg,
+    $button-text,
+    $button-radius,
+
+    $theme-button-bg,
+    $theme-button-text,
+    $display-bg) {
+    background-color: $background-color;
+    color: $text-color;
+    font-family: $font-family;
+    font-size: $font-size;
+
+    button {
+        @include button-theme($button-bg, $button-text, $button-radius);
+    }
+
+    .theme-switcher button {
+        @include theme-button($theme-button-bg, $theme-button-text);
+    }
+
+    .output-area {
+        background-color: $display-bg;
+        border-radius: 12px;
+    }
+}
+
+.theme-retro {
+    @include theme($theme-retro-background,
+        $theme-retro-text,
+        $theme-retro-font,
+        $theme-retro-font-size,
+        $theme-retro-button-bg,
+        $theme-retro-button-text,
+        $theme-retro-button-radius,
+        $theme-retro-theme-button-bg,
+        $theme-retro-theme-button-text,
+        $theme-retro-display-bg );
+}
+
+.theme-modern {
+    @include theme($theme-modern-background,
+        $theme-modern-text,
+        $theme-modern-font,
+        $theme-modern-font-size,
+        $theme-modern-button-bg,
+        $theme-modern-button-text,
+        $theme-modern-button-radius,
+        $theme-modern-theme-button-bg,
+        $theme-modern-theme-button-text,
+        $theme-modern-display-bg );
+}
+
+.theme-hacker {
+    @include theme($theme-hacker-background,
+        $theme-hacker-text,
+        $theme-hacker-font,
+        $theme-hacker-font-size,
+        $theme-hacker-button-bg,
+        $theme-hacker-button-text,
+        $theme-hacker-button-radius,
+        $theme-hacker-theme-button-bg,
+        $theme-hacker-theme-button-text,
+        $theme-hacker-display-bg );
+}
+
 .container {
     width: 100%;
     height: 100%;
     border-radius: 25px;
     padding: 25px;
     box-sizing: border-box;
-    background-color: #d3cbb8;
     border-radius: 25px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     display: flex;
@@ -17,16 +130,15 @@
         flex-direction: column;
         justify-content: center;
         padding: 10px;
-        background-color: #b0e57c;
         border-radius: 15px;
         box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.3);
         position: relative;
 
-        .calculations-display {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 2rem;
+        .calculations-display,
+        .results-display {
+            font-family: inherit;
+            font-size: inherit;
             text-align: right;
-            color: #003300;
             margin: 5px 0;
             width: 100%;
             white-space: nowrap;
@@ -34,21 +146,6 @@
             padding: 10px;
             box-sizing: border-box;
             scroll-behavior: smooth;
-
-            &::-webkit-scrollbar {
-                display: none;
-            }
-        }
-
-        .results-display {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 2rem;
-            text-align: right;
-            color: #003300;
-            margin: 5px 0;
-            width: 100%;
-            white-space: nowrap;
-            overflow-x: auto;
 
             &::-webkit-scrollbar {
                 display: none;
@@ -64,27 +161,11 @@
         padding: 10px;
 
         button {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.5rem;
+            font-family: inherit;
+            font-size: inherit;
             padding: 20px;
-            background-color: #d3d3d3;
-            color: #333333;
-            border: 2px solid #999999;
-            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px #999999;
             transition: background-color 0.2s, box-shadow 0.2s;
-
-            &:hover {
-                background-color: #c0c0c0;
-                box-shadow: 0 2px #999999;
-            }
-
-            &:active {
-                background-color: #aaaaaa;
-                box-shadow: none;
-                transform: translateY(2px);
-            }
         }
     }
 
@@ -94,26 +175,95 @@
         justify-content: flex-end;
 
         button {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1rem;
+            font-family: inherit;
+            font-size: inherit;
             padding: 10px 20px;
-            background-color: #8e44ad;
-            color: white;
-            border: none;
-            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px #5e337d;
             transition: background-color 0.3s, box-shadow 0.2s;
+        }
+    }
 
-            &:hover {
-                background-color: #732d91;
-                box-shadow: 0 2px #5e337d;
+    .theme-selector-modal {
+        position: fixed;
+        width: 40%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        border-radius: 10px;
+        box-sizing: border-box;
+        z-index: 1000;
+        overflow-y: auto;
+
+        .theme-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+
+            .theme-option {
+                padding: 15px;
+                text-align: center;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background-color 0.2s ease, color 0.2s ease;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        .theme-button {
+            width: 100%;
+            text-align: right;
+
+            button {
+                margin-top: 15px;
+                padding: 10px;
+                background-color: #4a4a4a;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: lighten(#4a4a4a, 10%);
+                }
+
+                &:active {
+                    background-color: lighten(#4a4a4a, 10%);
+                }
+            }
+        }
+
+        @media (max-width: 600px) {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform: none;
+            border-radius: 0;
+            padding: 10px;
+
+            .theme-options {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
             }
 
-            &:active {
-                background-color: #5e337d;
-                box-shadow: none;
-                transform: translateY(2px);
+            .theme-button {
+                position: sticky;
+                bottom: 0;
+                background-color: white;
+                padding-bottom: 10px;
+
+                button {
+                    width: 100%; // Przyciski na pełną szerokość
+                }
             }
         }
     }
