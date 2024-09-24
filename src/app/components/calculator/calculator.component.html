@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="output-area">
+    <div class="calculations-display">
+      @for (item of calculations; track $index) { {{ item.value }} }
+    </div>
+    <div class="results-display">= {{ result }}</div>
+  </div>
+  <div class="controls-area">
+    @for (control of controls; track $index) {
+    <button (click)="handleClick(control.value)">
+      {{ control.value }}</button
+    >}
+  </div>
+  <!-- <div class="theme-switcher">
+    <button>Change Theme</button>
+  </div> -->
+</div>
