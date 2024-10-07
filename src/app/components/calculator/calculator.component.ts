@@ -1,3 +1,4 @@
+import { evaluate } from 'mathjs';
 import { CommonModule } from '@angular/common';
 import { Component, signal, WritableSignal } from '@angular/core';
 
@@ -96,7 +97,7 @@ export class CalculatorComponent {
   calculateResult() {
     try {
       const expression = this.calculations.map((item) => item.value).join('');
-      this.result = `= ${eval(expression) ?? 0}`;
+      this.result = `= ${evaluate(expression) ?? 0}`;
     } catch (error) {
       this.result = 'Error';
     }
