@@ -24,29 +24,29 @@ To get started with this project, follow these steps:
 
 1. Clone the repository:
 
-   \`\`\`
-   git clone https://github.com/Ostryyy/calculator-with-themes.git
-   \`\`\`
+    ```bash
+    git clone https://github.com/Ostryyy/calculator-with-themes
+    ```
 
 2. Navigate into the project directory:
 
-   \`\`\`
-   cd calculator-with-themes
-   \`\`\`
+    ```bash
+    cd calculator-with-themes
+    ```
+   
+4. Install the dependencies:
 
-3. Install the dependencies:
-
-   \`\`\`
-   npm install
-   \`\`\`
+    ```bash
+    npm install
+    ```
 
 ## Development Server
 
 To run the project locally, use the following command:
 
-\`\`\`bash
-ng serve
-\`\`\`
+  ```bash
+  ng serve
+  ```
 
 Navigate to `http://localhost:4200/` in your browser. The application will automatically reload when changes are made to the source files.
 
@@ -54,9 +54,9 @@ Navigate to `http://localhost:4200/` in your browser. The application will autom
 
 To build the project for production, run:
 
-\`\`\`
-ng build
-\`\`\`
+  ```bash
+  ng build
+  ```
 
 The build artifacts will be stored in the `dist/` directory.
 
